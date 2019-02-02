@@ -24,6 +24,7 @@ Hopefully will target LDC in the future, but LDC and GDC both seem to have
 - LINUX:
 
   Prequisites:
+    - Must have a GPU that has support for `VK_NV_ray_tracing`
     - Must have either DMD or LDC installed
     - Must have DUB installed
 
@@ -35,3 +36,6 @@ Hopefully will target LDC in the future, but LDC and GDC both seem to have
     ./install.sh
     dub build --compiler=dmd --build=release
   ```
+
+- WINDOWS:
+  No support yet
