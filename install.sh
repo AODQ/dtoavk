@@ -6,7 +6,8 @@ git submodule update --recursive --init
 # install cimgui
 cd external/cimgui/
 make -j$(nproc)
-sudo cp cimgui.so /usr/bin/libcimgui.so
+echo "Installing cimgui.so to local project repository"
+cp cimgui.so /../../libcimgui.so
 
 # add neobc and dtoavk-bindings to dub environment
 cd ../neobc
