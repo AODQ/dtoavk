@@ -4,3 +4,6 @@
 [submodule "external/cimgui"]
 	path = external/cimgui
 	url = https://github.com/cimgui/cimgui
+[submodule "external/neobc"]
+	path = external/neobc
+	url = https://github.com/AODQ/neobc
