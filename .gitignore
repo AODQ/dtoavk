@@ -1,0 +1,16 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/dtoavk
+dtoavk.so
+dtoavk.dylib
+dtoavk.dll
+dtoavk.a
+dub.selections.json
+dtoavk.lib
+dtoavk-test-*
+*.exe
+*.o
+*.obj
+*.lst

@@ -1,0 +1,6 @@
+[submodule "external/dtoavk-bindings"]
+	path = external/dtoavk-bindings
+	url = https://github.com/aodq/dtoavk-bindings
+[submodule "external/cimgui"]
+	path = external/cimgui
+	url = https://github.com/cimgui/cimgui
