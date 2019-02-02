@@ -16,4 +16,4 @@ cd ../dtoavk-bindings
 dub add-local .
 
 cd ../../
-echo "Should be able to build, try: dub build --compiler=dmd --build=release"
+echo " -- Should be able to build, try: dub build --compiler=dmd --build=release"
