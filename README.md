@@ -7,4 +7,5 @@ To summarize this project in a few points:
   - (possibly) Virtual Reality support
   - Written in D BetterC (aka, no garbage collector, no D standard library)
 
-The idea is to remain as a rendering-backend only. 
+The idea is to remain as a rendering-backend only (hence why BetterC is used ->
+  good support for bindings with other language, no garbage collector)
