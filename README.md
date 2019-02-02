@@ -24,12 +24,14 @@ Hopefully will target LDC in the future, but LDC and GDC both seem to have
 - LINUX:
 
   Prequisites:
-    Must have either DMD or LDC installed
-    Must have DUB installed
+    - Must have either DMD or LDC installed
+    - Must have DUB installed
 
   Instructions:
+  ```
     git clone https://github.com/AODQ/dtoavk
     cd dtoavk
     chmod +x install.sh
     ./install.sh
     dub build --compiler=dmd --build=release
+  ```
