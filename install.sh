@@ -1,5 +1,8 @@
 #!/usr/bin/sh
 
+# Can use this script to install dependencies and dub dependencies to your local
+#   project repository. This has only been tested on Linux.
+
 echo " -- Updating dtoavk external dependencies"
 git submodule update --recursive --init
 
