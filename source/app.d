@@ -11,6 +11,7 @@ import utility;
 import vk;
 
 void InitializeDebugReportCallback(ref Framework fw) {
+  if (!fw.applicationSettings.enableValidation) return;
   VkDebugReportCallbackCreateInfoEXT callbackCreateInfo = {
     sType       : VkStructureType.debugReportCallbackCreateInfoExt
   , pNext       : null
@@ -81,9 +82,12 @@ extern(C) int main (int argc, char** argv) {
   "Initializing GlfwVulkanImgui\n".printf; fw.InitializeGlfwVulkanImgui;
 
   "Entering rendering loop\n".printf;
+  float lastFrameTime = glfwGetTime(), currentFrameTime = glfwGetTime();
   while ( !fw.ShouldCloseApplication )
   {
     sleepThread(10_000_000);
+    lastFrameTime = currentFrameTime;
+    currentFrameTime = glfwGetTime();
 
     static float[3] clearColor = [0.0f, 0.0f, 0.0f];
 
@@ -97,13 +101,21 @@ extern(C) int main (int argc, char** argv) {
     { // simple Ig window
       igColorEdit3("clear color", clearColor, ImGuiColorEditFlags.none);
 
-      igText("Hi I'm rendering something in Vulkan and D BetterC");
+      igText(
+        "Framerate: %.3f ms/frame (%d FPS), total time: %.3f",
+        (currentFrameTime - lastFrameTime)*1000.0f,
+        cast(int)(1.0f/(currentFrameTime - lastFrameTime)),
+        glfwGetTime()
+      );
     }
 
-    // // {
-    // //   // -- rasterize
-    // //   // vkCmdBindPip
-    // // }
+    { // -- rasterize
+      // fw.RCommandBuffer
+        // .vkCmdBindPipeline(
+          // VkPipelineBindPoint.graphics
+        // , 
+        // );
+    }
 
     igRender;
 

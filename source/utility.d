@@ -8,6 +8,7 @@ import neobc.array;
 import glfw;
 import vk;
 
+////////////////////////////////////////////////////////////////////////////////
 void EnforceAssert(
   T
 , string PF = __PRETTY_FUNCTION__
@@ -26,6 +27,7 @@ void EnforceAssert(
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void EnforceVk(
   string PF = __PRETTY_FUNCTION__
 , string FP = __FILE_FULL_PATH__
@@ -40,6 +42,7 @@ void EnforceVk(
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
 uint32_t GetMemoryType(
   VkPhysicalDeviceMemoryProperties physicalDeviceMemoryProperties
 , ref VkMemoryRequirements memoryRequirements
@@ -59,6 +62,7 @@ uint32_t GetMemoryType(
   return 0;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 Array!(ArrayType) GetVkArray(
   string fnName
 , bool hasEnforce
@@ -81,9 +85,11 @@ Array!(ArrayType) GetVkArray(
   return array;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 alias GetPhysicalDevices =
   GetVkArray!("vkEnumeratePhysicalDevices", true, VkPhysicalDevice, VkInstance);
 
+////////////////////////////////////////////////////////////////////////////////
 alias GetPhysicalDeviceQueueFamilyProperties =
   GetVkArray!(
     "vkGetPhysicalDeviceQueueFamilyProperties"
@@ -93,6 +99,7 @@ alias GetPhysicalDeviceQueueFamilyProperties =
   );
 
 
+////////////////////////////////////////////////////////////////////////////////
 alias GetPresentModes =
   GetVkArray!(
     "vkGetPhysicalDeviceSurfacePresentModesKHR"
@@ -102,6 +109,7 @@ alias GetPresentModes =
   , VkSurfaceKHR
   );
 
+////////////////////////////////////////////////////////////////////////////////
 alias GetSurfaceFormats =
   GetVkArray!(
     "vkGetPhysicalDeviceSurfaceFormatsKHR"
@@ -111,6 +119,7 @@ alias GetSurfaceFormats =
   , VkSurfaceKHR
   );
 
+////////////////////////////////////////////////////////////////////////////////
 alias vkGetSwapchainImagesKHRNeo =
   GetVkArray!(
     "vkGetSwapchainImagesKHR"
@@ -120,6 +129,7 @@ alias vkGetSwapchainImagesKHRNeo =
   , VkSwapchainKHR
   );
 
+////////////////////////////////////////////////////////////////////////////////
 Array!(VkImageView) GetSwapchainImageViews(
   ref VkDevice device
 , ref Array!(VkImage) swapchainImages
@@ -158,7 +168,7 @@ Array!(VkImageView) GetSwapchainImageViews(
   return imageViews;
 }
 
-
+////////////////////////////////////////////////////////////////////////////////
 void ImageBarrier(
   ref VkCommandBuffer commandBuffer
 , ref VkImage image
@@ -194,6 +204,7 @@ void ImageBarrier(
   );
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void GetRequiredGlfwExtensions(ref Array!(const(char)*) extensions) {
   uint32_t requiredExtensionLength;
   const(char)** requiredExtensions =

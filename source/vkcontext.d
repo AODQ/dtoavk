@@ -77,6 +77,8 @@ struct Framework {
   VkCommandBuffer[ImguiVkQueuedFrames] commandBuffers;
   VkFence[ImguiVkQueuedFrames] fenceFrame;
 
+  VkCommandBuffer RCommandBuffer() { return commandBuffers[frameIndex]; }
+
   VkPhysicalDeviceRayTracingPropertiesNV raytracingProperties;
 }
 
@@ -297,7 +299,7 @@ void CreateSwapchain(ref Framework fw) {
   , pQueueFamilyIndices:   null
   , preTransform:          VkSurfaceTransformFlagKHR.identityBitKhr
   , compositeAlpha:        VkCompositeAlphaFlagKHR.opaqueBitKhr
-  , presentMode:           VkPresentModeKHR.fifoKhr
+  , presentMode:           VkPresentModeKHR.immediateKhr
   , clipped:               VK_TRUE
   , oldSwapchain:          fw.swapchain
   };
@@ -433,7 +435,7 @@ void InitializeVulkan(ref Framework fw) {
   Array!(const(char)*) instanceLayers;
 
   // -- validation
-  if ( fw.applicationSettings.enableValidation ) {
+  if (fw.applicationSettings.enableValidation) {
     instanceExtensions ~= VK_EXT_DEBUG_REPORT_EXTENSION_NAME;
     instanceLayers ~= "VK_LAYER_LUNARG_standard_validation";
   }
@@ -468,15 +470,15 @@ void InitializeVulkan(ref Framework fw) {
 ////////////////////////////////////////////////////////////////////////////////
 void CreateDepthResources(ref Framework fw)
 {
-  fw.Create(
-    fw.depthImage
-  , VkImageType.i2D
-  , VkFormat.d32Sfloat // use depth find format
-  , VkExtent3D(800, 600, 1)
-  , VkImageTiling.optimal
-  , VkImageUsageFlag.depthStencilAttachmentBit
-  , VkMemoryPropertyFlag.deviceLocalBit
-  );
+  fw.depthImage =
+    fw.CreateImage(
+      VkImageType.i2D
+    , VkFormat.d32Sfloat // use depth find format
+    , VkExtent3D(800, 600, 1)
+    , VkImageTiling.optimal
+    , VkImageUsageFlag.depthStencilAttachmentBit
+    , VkMemoryPropertyFlag.deviceLocalBit
+    );
 
   VkImageSubresourceRange subresourceRange = {
     aspectMask:     VkImageAspectFlag.depthBit
@@ -626,10 +628,10 @@ void InitializeDevicesAndQueues(ref Framework fw) {
   }
 
   // -- get extensions
-   auto deviceExtensions = Array!(const(char)*)(3);
+   auto deviceExtensions = Array!(const(char)*)(1);
    deviceExtensions[0] = VK_KHR_SWAPCHAIN_EXTENSION_NAME;
-   deviceExtensions[1] = VK_NV_RAY_TRACING_EXTENSION_NAME;
-   deviceExtensions[2] = VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME;
+   // deviceExtensions[1] = VK_NV_RAY_TRACING_EXTENSION_NAME;
+   // deviceExtensions[1] = VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME;
 
   // -- get physical device descriptor indexing features
   //   and enable all features GPU supports

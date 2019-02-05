@@ -4,6 +4,8 @@ import vk;
 import vkcontext;
 import utility;
 
+import core.stdc.stdint;
+
 ////////////////////////////////////////////////////////////////////////////////
 struct Image {
   VkFormat format;
@@ -25,9 +27,8 @@ void Create (
 );
 
 ////////////////////////////////////////////////////////////////////////////////
-void Create (
+Image CreateImage (
   ref Framework fw
-, ref Image image
 , VkImageType imageType
 , VkFormat format
 , VkExtent3D extent
@@ -35,7 +36,7 @@ void Create (
 , VkImageUsageFlags usageFlags
 , VkMemoryPropertyFlags memoryProperties
 ) {
-////////////////////////////////////////////////////////////////////////////////
+  Image image;
   image.format = format;
 
   VkImageCreateInfo imageCreateInfo = {
@@ -91,6 +92,8 @@ void Create (
     , image.memory
     , 0
     ).EnforceVk;
+
+  return image;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -126,6 +129,7 @@ void CreateImageView (
     ).EnforceVk;
 }
 
+////////////////////////////////////////////////////////////////////////////////
 void TransitionImageLayout (
   ref Framework fw
 , ref Image image
@@ -218,4 +222,40 @@ void TransitionImageLayout (
   , /*imageMemoryBarrierCount */ 1
   , /*pImageMemoryBarriers    */ &barrier
   );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+void CopyBufferToImage(
+  ref Framework fw
+, ref Image image
+, VkBuffer buffer
+, uint32_t width
+, uint32_t height
+) {
+  ScopedSingleTimeCommandBuffer cmdBuffer;
+
+  VkImageSubresourceLayers subresourceLayers = {
+    aspectMask:     VkImageAspectFlag.colorBit
+  , mipLevel:       0
+  , baseArrayLayer: 0
+  , layerCount:     1
+  };
+
+  VkBufferImageCopy region = {
+    bufferOffset: 0
+  , bufferRowLength: 0
+  , bufferImageHeight: 0
+  , imageSubresource: subresourceLayers 
+  , imageOffset: VkOffset3D(0, 0, 0)
+  , imageExtent: VkExtent3D(width, height, 1)
+  };
+
+  cmdBuffer.cmdBuffer
+    .vkCmdCopyBufferToImage(
+      buffer
+    , image.image
+    , VkImageLayout.transferDstOptimal
+    , 1
+    , &region
+    );
 }
