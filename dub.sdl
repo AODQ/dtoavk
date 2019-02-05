@@ -13,5 +13,3 @@ subConfiguration "bindbc-glfw" "staticBC"
 libs "glfw" "vulkan" "cimgui" "png" "imago"
 
 dflags "-betterC"
-
-postBuildCommands "cd shaders; glslangValidator -V ray.rmiss -V ray.rchit -V ray.rgen"
